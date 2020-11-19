@@ -1,5 +1,5 @@
-import { combineLatest, of, zip } from "rxjs";
-import { map, mapTo, mergeMap, startWith, tap } from "rxjs/operators";
+import { combineLatest, of } from "rxjs";
+import { map, mergeMap, startWith, tap } from "rxjs/operators";
 import { all, any } from "./operators";
 import { fromChange, isDivisible, isHigherThan, isLowerThan } from "./utils";
 
@@ -11,13 +11,13 @@ fromChange(formElement)
       value: "12",
       lowerBound: "6",
       upperBound: "15",
-      divisor: "3"
+      divisor: "3",
     }),
     map(({ value, lowerBound, upperBound, divisor }) => ({
       value: parseInt(value),
       lowerBound: parseInt(lowerBound),
       upperBound: parseInt(upperBound),
-      divisor: parseInt(divisor)
+      divisor: parseInt(divisor),
     })),
     tap(({ value, lowerBound, upperBound, divisor }) => {
       console.log("\n\n");
@@ -44,7 +44,7 @@ fromChange(formElement)
       const conditions = [
         isHigherThan(lowerBound),
         isLowerThan(upperBound),
-        isDivisible(divisor)
+        isDivisible(divisor),
       ];
 
       return combineLatest([
@@ -55,7 +55,7 @@ fromChange(formElement)
         of(value).pipe(
           any(conditions),
           tap(() => console.log("At least one condition is met"))
-        )
+        ),
       ]);
     })
   )
