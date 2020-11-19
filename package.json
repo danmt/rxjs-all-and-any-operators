@@ -4,5 +4,9 @@
   "private": true,
   "dependencies": {
     "rxjs": "latest"
+  },
+  "devDependencies": {
+    "parcel": "^1.12.4",
+    "typescript": "^4.0.5"
   }
 }
