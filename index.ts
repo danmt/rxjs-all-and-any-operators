@@ -11,13 +11,13 @@ fromChange(formElement)
       value: "12",
       lowerBound: "6",
       upperBound: "15",
-      divisor: "3",
+      divisor: "3"
     }),
     map(({ value, lowerBound, upperBound, divisor }) => ({
       value: parseInt(value),
       lowerBound: parseInt(lowerBound),
       upperBound: parseInt(upperBound),
-      divisor: parseInt(divisor),
+      divisor: parseInt(divisor)
     })),
     tap(({ value, lowerBound, upperBound, divisor }) => {
       console.log("\n\n");
@@ -40,24 +40,26 @@ fromChange(formElement)
         isDivisible(divisor)(value)
       );
     }),
-    mergeMap(({ value, lowerBound, upperBound, divisor }) => {
-      const conditions = [
-        isHigherThan(lowerBound),
-        isLowerThan(upperBound),
-        isDivisible(divisor),
-      ];
-
-      return combineLatest([
+    mergeMap(({ value, lowerBound, upperBound, divisor }) =>
+      combineLatest([
         of(value).pipe(
-          all(conditions),
+          all(
+            isHigherThan(lowerBound),
+            isLowerThan(upperBound),
+            isDivisible(divisor)
+          ),
           tap(() => console.log("All conditions are met"))
         ),
         of(value).pipe(
-          any(conditions),
+          any(
+            isHigherThan(lowerBound),
+            isLowerThan(upperBound),
+            isDivisible(divisor)
+          ),
           tap(() => console.log("At least one condition is met"))
-        ),
-      ]);
-    })
+        )
+      ])
+    )
   )
 
   .subscribe();
