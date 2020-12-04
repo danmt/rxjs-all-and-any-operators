@@ -7,15 +7,12 @@ export const all = <T>(...conditions: ((value: T) => boolean)[]) =>
 export const any = <T>(...conditions: ((value: T) => boolean)[]) =>
   filter((value: T) => conditions.some(condition => condition(value)));
 
-export const concatUnique = <T, U>(keySelector?: (value: T) => U) => (
-  arrays: T[][]
+export const concatUnique = <T, U>(
+  arrays: T[][],
+  keySelector?: (value: T) => U
 ) =>
   from(arrays).pipe(
-    concatMap(array =>
-      from(array).pipe(
-        distinct<T, U>(keySelector),
-        toArray()
-      )
-    ),
-    last()
+    concatMap(array => from(array)),
+    distinct<T, U>(keySelector),
+    toArray()
   );
